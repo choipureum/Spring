@@ -1,0 +1,113 @@
+ < 라이브러리, Library >
+  - 특정 기능을 개발하기 위한 API 모음
+    
+      ** API : 프로그램을 개발하기 위한 코드(클래스, 인터페이스)들의 모음
+      
+      
+ + 프레임워크, Framework
+  - 뼈대, 기반구조, 체계
+  
+  - 문제를 해결하기 위해 여러 요소들(클래스, 인터페이스)을 짜여진 규칙에 맞게
+    개발할 수 있도록 개발 규칙(원칙)까지 정해놓은 것
+   
+   
+ < 라이브러리 vs 프레임워크 >
+ 
+  - 라이브러리는 개발에 필요한 API를 단순히 모아놓은 것에 가깝고
+    프레임워크는 라이브러리와 달리 API들의 사용절차(개발방식)까지 포함하는 경우가 많다
+    
+  - 라이브러리는 응용프로그램의 흐름이 개발자의 코드에 따라 직접 제어한다  
+  - 프레임워크는 프레임워크에 의해서 프로그램 흐름이 제어된다.
+  
+  
+  - 프로그램을 구성하는 API 를
+    
+      내가 호출해서 사용하면 라이브러리
+    
+      내가 만들어둔 코드를 가져가서 동작되면 프레임워크
+      
+      -> IoC, Inversion of Control, 제어의 역전
+      
+      
+< 마이바티스 프레임워크, MyBatis >
+
+  - 퍼시스턴스 계층 프레임워크 (Persistence Layer)
+  
+  - DAO - DB 연결 구조 (JDBC)
+  
+  - JDBC관련 개발을 편하게 만들어 준다
+  
+  - JDBC 프레임워크, 데이터베이스 관리 프레임워크
+  
+  
+< 스프링 프레임워크, Spring >
+
+  - JAVA 언어를 이용한 프로그램 개발 프레임워크
+  
+  - MVC 패턴 기반의 프레임워크
+
+< MyBatis(마이바티스) >
+ < https://mybatis.org/mybatis-3/ko/index.html : 사용자가이드 URL >
+
+ - 데베와 자바각채(DAO)를 연결(매핑)해주는 JDBC 자동화 프레임워크
+ - JDBC를 편하게 사용할 수 있게 해준다
+ - JDBC의 동작을 캡슐화하여 제공한다(Connerction, PreparesStatement -> sql쿼리를 DB에 전송 -> 결과 ->  close)
+ 	+ 장점
+		- SQL코드와 프로그램 코드를 분리하여 관리할 수 있다
+	** iBatis는 MyBatis의 예전 버전 이름
+	** MyBatis는 전체 프로젝트가 구글에 넘어가면서 이름을 바꾼 것
+		iBatis : JDK 1.4이전
+		MyBatis : JDK 1.5 이후
+
+< 마이바티스 기본 세팅 >
+
+  - 라이브러리 설치
+      mybatis-x.x.x.jar
+      ojdbcX.jar
+      
+  - 마이바티스 설정파일 작성(XML 파일)     
+      configuration XML 파일 ( 마이바티스의 DB접속 설정 파일 )      
+      mybatis-config    
+ 
+ - 마이바티스 Connection Factory 클래스 작성
+	마이바티스를 이용한 DB연결객체를 생성하는 클래스(싱글톤으로 개발)
+	SqlSessionFactory클래스의 인스턴스를 싱글톤으로 생성하고 관리한다
+
+	** SqlSession 클래스
+		DB쿼리(SQL)작업 수행 객체
+
+	** SqlSessionFactory 클래스
+		설정항목을 불러들여 SqlSession 객체를 생성하는 객체
+
+	** SqlSessionFactoryBuilder 클래스
+		설정파일(XML)을 읽어들여 SqlSessionFactory 객체를 생성하는 객체
+
+ - DAO 파일작성(interface)
+	마이바티스와 연결되는 자바 객체
+
+ - Mapper 파일 작성(XML)
+	마이바티스에 적용할 쿼리 매퍼 파일
+
+ - DTO 파일 작성(class)
+	테이블정보를 전달하거나 전달받는 객체 (도메인,  모델 객체)
+
+ - Controller 파일 작성( 실행 클래스,main() )
+	SqlSessionFactory 클래스를 이용하여 SqlSession객체를 생성한다
+	SqlSession 객체를 이용하여 DB쿼리를 수행한다
+	(마이바티스 동작을 수행시킨다)
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
