@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- doc타입 선언 Mapper -->
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <!--mapper 루트 태그 -->
+  	<!-- namespace 를 무조건 적어주기 -> 아니면 에러발생 -->
+  <mapper namespace="dao.EmpDao">
+  <!-- 모든 정보 조회 -->
+  	<select id="selectAll" resultType="dto.Emp">
+  		SELECT * FROM EMP ORDER BY EMPNO
+  	</select>
+  	<select id="selectByEmpNo" resultType="dto.Emp" parameterType="dto.Emp">
+  		SELECT * FROM EMP WHERE EMPNO=#{empno} 
+  	</select>
+  	<insert id="insertEmp" parameterType="dto.Emp">
+  		INSERT INTO EMP(empno,ename,job,mgr,hiredate,sal,comm,deptno) 
+  			VALUES(#{empno},#{ename},#{job},#{mgr},#{hiredate},#{sal},#{comm},#{deptno})
+  	</insert>
+  	<delete id="deleteByEmpNo" parameterType="dto.Emp">
+  	  	Delete FROM EMP WHERE empno=#{empno}
+  	</delete>
+
+  </mapper>
