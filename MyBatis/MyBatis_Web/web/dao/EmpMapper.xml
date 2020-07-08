@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- doc타입 선언 Mapper -->
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <!--mapper 루트 태그 -->
+  	<!-- namespace 를 무조건 적어주기 -> 아니면 에러발생 -->
+  <mapper namespace="web.dao.EmpDao">
+  <!-- 모든 정보 조회 -->
+  	<!-- 여기서는 /가 아닌  .(점)으로 구분 -->
+  	<select id="selectAll" resultType="web.dto.Emp">
+  		SELECT * FROM EMP ORDER BY EMPNO  		
+  	</select>
+  	
+  	<select id="selectByEmpno" parameterType="int" resultType="web.dto.Emp">
+  		SELECT * FROM EMP WHERE EMPNO=#{empno} 	
+  	</select>
+  </mapper>
