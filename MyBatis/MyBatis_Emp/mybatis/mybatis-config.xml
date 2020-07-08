@@ -6,6 +6,12 @@
 <!-- 마이바티스 3 설정항목 태그 -->
  <!-- 접속할 DB 정보 설정 -->
  <configuration> 
+ <!-- 방법 1 -->
+	 <!-- DB접속 정보를 Properties 파일에서 추출해온다 -->
+<!--  	<properties resource="mybatis/db.properties"/> -->
+<!-- properties 를 넣는다면 밑 value위치에 ${driver},${url}등으로 삽입해줘야함 -->
+ 
+ <!-- 방법2 -->
  	<environments default="develpment">
  	<!-- 접속가능한 DB정보 태그(대부분 하나) -->
  		<environment id="develpment">
