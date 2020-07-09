@@ -23,7 +23,7 @@
   	</select>
   	<select id="select3" parameterType="web.dto.Emp" resultType="web.dto.Emp">
   		SELECT * FROM emp
-  		WHERE 1=1,
+  		WHERE 1=1
   		<if test="empno!=null">
   		AND empno=#{empno}
   		</if>  		
