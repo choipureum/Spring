@@ -32,7 +32,8 @@
  		<!-- mapper로 사용할 xml파일이 어디있는지-resources -->
  		<!-- /로 구분해준다!!!주의 -->
  		<mapper resource="web/dao/EmpMapper.xml"/>
- 	
+ 		<mapper resource="selectKey/dao/SelectKeyMapper.xml"/>
+ 		<mapper resource="dynamic/dao/DynamicQueryMapper.xml"/>
  	</mappers>
  
  </configuration>
