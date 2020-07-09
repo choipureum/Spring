@@ -23,11 +23,14 @@
   	</select>
   	<select id="select3" parameterType="web.dto.Emp" resultType="web.dto.Emp">
   		SELECT * FROM emp
-  		
+  		WHERE 1=1,
+  		<if test="empno!=null">
+  		AND empno=#{empno}
+  		</if>  		
   		<if test="ename!=null and !ename.equals('')">
-  			<if test="empno!=null">
-  			WHERE empno=#{empno} OR ename=#{ename}
-  			</if>
+  			
+  			 OR ename LIKE '%' || #{ename} || '%'
+  			
   		</if>
   		
   	</select>
