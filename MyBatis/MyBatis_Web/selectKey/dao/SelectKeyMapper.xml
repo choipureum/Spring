@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- doc타입 선언 Mapper -->
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+
+  <mapper namespace="selectKey.dao.SelectKeyDao">
+  
+  
+  	<insert parameterType="selectKey.dto.test_member" id="insert">
+  	<!-- order - BEFORE는 전 , AFTER는 후에 실행 -->
+  	<selectKey order="BEFORE" resultType="int" keyProperty="no">
+  			SELECT test_member_seq.nextval FROM dual
+  	</selectKey>
+  		INSERT INTO test_member(no,id,pw) VALUES(#{no},#{id},#{pw})
+  	</insert>
+  </mapper>
