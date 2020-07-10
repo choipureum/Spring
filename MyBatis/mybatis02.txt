@@ -61,7 +61,173 @@
  - <select>,<insert>,<update>,<delete> 안에서 사용한다
  -<if>,<choose>,<trim>,<foreach>태그를 제공한다
 
- + <if> 태그
++ <if>태그
+ - test 속성의 값을 이용하여 조건문을 작성한다.
+ - test속성의 값은 "true/false" 가 되도록 해야한다
+ - true나 false가 아니면 true로 취급한다(잘못된 구문시 무조건 실행)
+ - 조건의 결과에 따라 쿼리의 추가 여부가 결정된다
+
+	ex)
+ 	<select id="" parameterType="web.dto.Emp">
+		SELECT * FROM emp 
+		WHERE 1=1
+		<if test="empno!=null">
+			AND empno=#{empno}
+		</if>
+		<if test="ename!=null and !ename.equals('')">
+			AND ename=#{ename}
+		</if>
+	</select>
+
+	ex) parameter type="string"일경우 value 키워드 사용을 고려할 것!(버전이 낮으면 string전달에 문제가 있다)	
+	<select id="" parameterType="string">
+		SELECT * FROM test
+		<if test="value==null">
+			WHERE testid=#{value}
+		</if>
+	</select>
+
++ < choose> , <when>, <otherwise> 태그
+ - if~else if~ else 구문과 비슷한 제어문 태그
+ - <choose>안에 <when>태그로 조건문을 작성한다
+ - <when>태그에 test속성으로 조건문을 작성하여 else if같은 역할을 한다
+ - <when>태그 들의 마지막으로<otherwise> 태그를 사용하여 else 같은 역할을 한다
+	ex) 
+		<choose>
+			<when test="조건문1">
+			</when>
+			<when test="조건문2">
+			</when>
+			....
+			<otherwise></otherwise>
+		</choose>
+
++ <trim> 태그
+
+ - WHERE 절이나 UPDATE의 SET절에서 사용된다
+ - 동적쿼리가 전달파라미터에 따라 추가되지 않는 상황에서 AND나 OR 같은 키워드가 충돌날 수 있는 상황에서 사용한다
+ - SET절에서는 마지막 ','를 고려해서 사용한다
+ - <trim> 태그의 속성
+	prefix : 접두어 지정
+	prefixOverrides : 접두어로 설정한 값과 겹쳐지면 제거할 항목을 지정
+	suffix : 접미어 지정
+	suffixOverrides : 접미어로 설정한 값과 겹쳐지면 제거할 항목을 지정
+
++ <foreach> 태그
+ - 반복되는 구문을 동적으로 생성할 때 사용하는 태그
+ - 배열/해시맵 타입의 파라미터를 처리할 때 유용하다
+ - 마이바티스의 전달파라미터는 hashmap으로 처리하는 것이 좋다
+ - 배열이나 리스트는 해시맵에 put 하여 전달한다
+ 	ex) checkbox 선택항목에 대한 조건 처리를 할때 유용하다	
+
+	<select id="selectCheckbox" parameterType="hashmap" resultType="web.dto.Emp">
+  			SELECT * FROM emp
+  			<if test="deptnoArr!=null">
+  			<!-- foreach로 반복해주어야함 -->
+  				WHERE deptno IN 
+  				<!-- collection명은 key값 이름이 된다 -->
+  				<foreach collection="deptnoArr" item="deptno"  			
+  				open="(" close=")" separator=",">
+  					<!-- open은 맨처음 close는 맨뒤 separator는 반복문 사이사이 넣어줄 값 -->
+					  		#{deptno}	
+					  		<!-- ${deptno}으로 하면 양쪽에 작은 따옴표를 안붙여준다(int일시 써되되지만 어차피 자동형변환된다) -->		
+  				</foreach>
+  				<!-- (10,20,30)같은 형태가 된다 -->
+  				</if>
+  		</select>
+
+< MyBatis의 SqlSession 객체의 구문을 실행하는 메소드>
+ - <T> T selectOne(String statement, Object Parameter)
+ 	: Type은 어떤 메소드도 들어올 수 있다
+ 	하나의 객체를 리턴하는 조회 구문 수행 메소드
+ - <E> List<E> selectList(String statement, Object Parameter)
+	: 한 개 이상의 객체를 리턴하는 조회 구문 수행 메소드
+ - <K,V> Map<K,V> selectMap(String statement, Object Parameter, String mapKey)
+	: 결과 데이터를 Map으로 변환하기 위해 제공되는 메소드	
+ - <T> Cursor<T> selectCursor(String statement, Object Parameter)
+	: 결과 데이터를 Cursor객체로 반환하는 메소드
+
+ - int insert(String statement, Object Parameter)
+ - int update(String statement, Object Parameter)
+ - int delete(String statement, Object Parameter)
+	반환데이터는 SQL구문에 의해 영향을 받은 레코드(행) 수를 나타낸다
+ 
+ ** 위 모든 메소드들은 Object Parameter 없이 호출될 수 있도록 오버로딩되어있음
+
+< 마이바티스 매퍼의 쿼리 수행 태그 >
+ - <select>, <insert>, <update>, <delete> 태그
+ - 수행할  SQL 쿼리에 맞게 태그를 골라 작성하면 된다
+ - 쿼리와 똑같지 않은 태그를 사용해도 실행은 되지만 좋지않음
+
+ 	+ 공통 속성
+	 - id
+	  : 해당 매퍼 파일(XML)에서 유일한 값으로 설정한다
+	   해당 네임스페이스에서 구분자(식별값) 역할을 수행한다
+	   DAO 인터페이스의 추상메소드의 이름과 같은 이름으로 작성하도록 한다. 
+	
+	- parameterType
+	  : 쿼리 수행에 필요한 전달 파라미터의 데이터타입을 명시하는 속성
+
+	- flushCache(건들지마라)
+	 : 구문이 실행될 때마다 캐시를 지울 것인지 설정하는 항목( 기본값은 false)	
+
+	- timeout(건들지마라)
+	 : 데베 처리 결과를 기다리는 최대 시간
+ 
+	- statementType(건들지마라)
+	 : 쿼리 수행방식에 대한 설정
+	  Statement,PrepareStatement(기본값), Callable 중 선택
+  	  
+
+<SELECT>요소 전용 속성
+ - resultType
+	SELECT 수행 결과(ResultSet)를 처리할 데이터타입(실제 데이터 타입)
+	참조형(DTO)라면 패키지가지 포함하여 풀네임으로 작성한다
+
+ - resultMap
+	SELECT 수행 결과(ResultSet)를 처리할 <ResultMap>
+	<resultMap>태그를 이용하여 생성한 id를 이용한다
+
+ - useCache(건들지마라)
+	 : 구문의 결과를 캐시에 저장할 것인지 설정하는 항목( 기본값은 true)
+
+ - fetchSize
+	: SELECT 결과를 한번에 가져올 크기(개수)를 설정하는 속성
+	 기본값 10(오라클은 50개)
+	** 대용량 데이터 처리가 필요하면 1000개 정도를 설정하는 편
+	
+ - resultSetType
+	조회 결과값을 읽어오는 동작에 대한 설정
+	DB 의  커서객체 동작을 설정함
+	
+	FORWARD_ONLY
+		한쪽 방향으로 읽음(보통)
+	<!--SCROLL은 잘안사용한다-->
+	SCROLL_SENSITIVE
+		SCROLL=다시 돌아가는것/변화가 있으면 바로 반응
+	SCROLL_INSENSITIVE
+		변화가 있어도 반응하지 않음
+
+< 마이바티스의 내장 캐시(Cache) >
+ - 2가지 내장 캐시가 존재한다
+	Local Session Cache
+	Second Level Cache (2nd Level)
+	
+  - Local Session Cache(Session Level Cache)
+	SqlSession 객체마다 가지고 있는 캐시
+	개발자가 임의로 기능을 해제할 수 없다
+
+  - Second Level Cache
+	Mapper의 namespace마다 존재하는 캐시
+
+ ** sqlSession.clearCache()를 통해서 명시적으로 지워줄수있다(이외에는 rollback,commit,close를 할때 지워진다)
+
+
+ 	
+
+
+
+
 
 
 
