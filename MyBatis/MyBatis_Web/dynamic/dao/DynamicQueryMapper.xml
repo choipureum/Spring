@@ -27,11 +27,93 @@
   		<if test="empno!=null">
   		AND empno=#{empno}
   		</if>  		
-  		<if test="ename!=null and !ename.equals('')">
+  		<if test="ename!=null and !ename.equals('')"> 			
+  			 OR ename LIKE '%' || #{ename} || '%'  			
+  		</if>  		
+  	</select>
+  	
+  	<!-- choose를 이용한 검색 코드 -->
+  	<select id="select4" parameterType="hashmap" resultType="web.dto.Emp">
+  		SELECT * FROM emp 
+  		
+  		<!-- trim태그 (WHERE 1=1등의 불필요한 코드의 개선)-->
+  			<!-- prefix에는 접두에 공통적으로 와야하는 것, suffix는 공통적으로 접미에 와야하는것 -->
+  				<!-- AND는 만나면 제거 -->
+  		<trim prefix="WHERE"  prefixOverrides="AND|OR">
+  		
+		<choose>
+			<when test="category.equals('ename')"> AND ename LIKE '%' || #{keyword} || '%'  	 </when>
+			<when test="category.equals('job')"> AND job LIKE '%' || #{keyword} || '%'  </when>
+		</choose>			
+		</trim>		
+  	</select>
+  	
+  	<select id="select4_2">
+  		SELECT * FROM emp
+  			WHERE deptno=10
   			
-  			 OR ename LIKE '%' || #{ename} || '%'
-  			
-  		</if>
+  			<!-- AND( 가 접두어로 붙고 OR를 만나는 첫 애는 삭제를 한다 -->
+  			<trim prefix="AND(" prefixOverrides="AND||OR" suffix=")">
+  			<if test="job!=null">
+  				job LIKE '%' || #{job} || '%'
+  			</if>
+  			<if test="sal!=null">
+  				OR sal>#{sal}
+  			</if> 			
+  			</trim>
   		
   	</select>
+  	
+  		<!-- trim 태그 사용 예시 2 -->
+  		<update id="update">
+  			UPDATE emp
+  			<!-- suffixOverrides만 적으면 맨뒤에 콤마만 제거 -->
+  			<trim prefix="SET" suffixOverrides=",">
+  				SET 
+  					<if test="ename!=null">
+  						ename=#{ename},
+  					</if>
+  					<if test="job!=null">
+  						job=#{job},
+  					</if>		
+  					<if test="deptno!=null">
+  						deptno=#{deptno},
+  					</if>  				
+  			</trim>	
+  					WHERE empno=#{empno}
+  		</update>
+  		
+  		<!-- selectCheckbox 매퍼 -->
+  		<select id="selectCheckbox" parameterType="hashmap" resultType="web.dto.Emp">
+  			SELECT * FROM emp
+  			<if test="deptnoArr!=null">
+  			<!-- foreach로 반복해주어야함 -->
+  				WHERE deptno IN 
+  				<!-- collection명은 key값 이름이 된다 -->
+  				<foreach collection="deptnoArr" item="deptno"  			
+  				open="(" close=")" separator=",">
+  					<!-- open은 맨처음 close는 맨뒤 separator는 반복문 사이사이 넣어줄 값 -->
+					  		#{deptno}	
+					  		<!-- ${deptno}으로 하면 양쪽에 작은 따옴표를 안붙여준다(int일시 써되되지만 어차피 자동형변환된다) -->		
+  				</foreach>
+  				<!-- (10,20,30)같은 형태가 된다 -->
+  				</if>
+  		</select>
+  		
   </mapper>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
