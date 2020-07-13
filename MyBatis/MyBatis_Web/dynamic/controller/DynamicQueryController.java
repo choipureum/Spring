@@ -1,6 +1,7 @@
 package dynamic.controller;
 
 import java.io.IOException;
+
 import java.util.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,10 +15,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import dynamic.dao.DynamicQueryDao;
 import mybatis.MyBatisConnectionFactory;
 import web.dto.Emp;
-
-/**
- * Servlet implementation class DynamicQueryController
- */
 @WebServlet("/dynamic/list")
 public class DynamicQueryController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -66,6 +63,8 @@ public class DynamicQueryController extends HttpServlet {
 		
 		
 		//----------------------------------------
+		
+
 		req.getRequestDispatcher("/WEB-INF/views/queryCheckbox.jsp").forward(req, resp);		
 		
 	}
@@ -79,9 +78,8 @@ public class DynamicQueryController extends HttpServlet {
 		map.put("deptnoArr", data);
 		List<Emp>list=dynamicQueryDao.selectCheckbox(map);
 		
-		for(Emp emp:list) {
-			System.out.println(emp);
-		}
+		req.setAttribute("list", list);
+		req.getRequestDispatcher("/WEB-INF/views/resultCheckbox.jsp").forward(req, resp);
 	}
 
 }
