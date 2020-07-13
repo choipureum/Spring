@@ -222,6 +222,26 @@
 
  ** sqlSession.clearCache()를 통해서 명시적으로 지워줄수있다(이외에는 rollback,commit,close를 할때 지워진다)
 
+< Mybatis TypeAlias >
+ - 마이바티스 쿼리 수행 태그의 속성으로 parameterType, resultType을 설정할 때
+DTO(VO)의 패키지까지 포함한 풀네임을 적용해야 한다
+ - 패키지의 길이가 길어질 경우 불편함을 줄이기 위해 TypeAlias를 이용해 DTO의 별칭을 붙여 사용할 수 있다
+ - 오히려 유지보수성을 떨어뜨리는 경우도 있어 조심히 사용해야 한다
+
+< TypeAlias 적용 방법 2가지 >
+ - MyBatis Configuration XML 파일에서 <setting> 밑에 <environments>위에 작성해야 한다
+ 
+ 	1.  클래스 단위로 등록하기
+	<typeAliases> 
+ 		<typeAlias type="web.dto.Emp" alias="Emp"/> 
+	 </typeAliases> 
+	2. 패키지 단위로 등록하기
+	<typeAliases>
+		<package name="web.dto" />
+	</typeAliases>
+	
+	** 등록 된 패키지의 DTO 클래스의 정의코드 위 @Alias("별칭")을 이용하여 직접 별칭을 지정할 수 있다
+	** @Alias를 사용하지 않으면 클래스명으로 적용된다
 
  	
 
