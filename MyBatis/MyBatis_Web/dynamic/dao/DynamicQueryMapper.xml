@@ -84,7 +84,7 @@
   		</update>
   		
   		<!-- selectCheckbox 매퍼 -->
-  		<select id="selectCheckbox" parameterType="hashmap" resultType="web.dto.Emp">
+  		<select id="selectCheckbox" parameterType="hashmap" resultType="EmpDTO"><!-- web.dto.Emp를 Emp로 Alias해서 쓸수있다 -->
   			SELECT * FROM emp
   			<if test="deptnoArr!=null">
   			<!-- foreach로 반복해주어야함 -->
