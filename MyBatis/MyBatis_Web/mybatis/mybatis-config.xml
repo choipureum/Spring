@@ -7,9 +7,30 @@
  <!-- 접속할 DB 정보 설정 -->
  <configuration> 
  <!-- 방법 1 -->
-	 <!-- DB접속 정보를 Properties 파일에서 추출해온다 -->
+	<!-- DB접속 정보를 Properties 파일에서 추출해온다 -->
  	<properties resource="mybatis/db.properties"/>
 <!-- properties 를 넣는다면 밑 value위치에 ${driver},${url}등으로 삽입해줘야함 -->
+
+<!-- Mybatis의 동작을 제어하는 설정 태그 -->
+<!--  Propertis 밑과 typeAliases 위에 둘 것 -->
+<settings>
+	<!-- null값을 처리해주도록 설정 -->
+	<setting name="jdbcTypeForNull" value="NULL"/>
+	<setting name="logImpl" value="LOG4J"/>
+</settings>
+
+<!-- 자바 타입(DTO)의 이름에 별칭( TypeAlias)를 붙여주는 설정 -->
+<!-- <typeAliases> -->
+<!-- 	<typeAlias type="web.dto.Emp" alias="Emp"/> -->
+<!-- </typeAliases> -->
+<!-- typeAlias를  패키지 단위로선언하는 방법 -->
+ <typeAliases>
+ 	<typeAlias type="dept.dto.Dept" alias="Dept"/>
+ 	<package name="web.dto"/>
+ </typeAliases>
+ <!-- 시험에서는 하나하나 해줄것 -->
+ 
+ 
  
  <!-- 방법2 -->
  	<environments default="develpment">
@@ -34,6 +55,8 @@
  		<mapper resource="web/dao/EmpMapper.xml"/>
  		<mapper resource="selectKey/dao/SelectKeyMapper.xml"/>
  		<mapper resource="dynamic/dao/DynamicQueryMapper.xml"/>
+ 		<mapper resource="multiparam/dao/MultiParamMapper.xml"/>
+ 		<mapper resource="dept/dao/DeptMapper.xml"/>
  	</mappers>
  
  </configuration>
