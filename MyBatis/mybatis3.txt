@@ -1,0 +1,58 @@
+< MyBatis에서 Null값 처리하기 >
+ - INSERT나 UPDATE 쿼리를 이용할 때 NULL값을 입력/수정해야할 때가 있다
+ - MyBatis에서는 NULL값을 입력하려고할 때 JDBC타입을 명시해주어야 한다
+
+< NULL값 처리 방법 1 >
+ - Mapper XML 파일에서 SQL쿼리를 작성할 때 파라미터 값에 각각 데이터 타입을 명시함
+	ex) <insert id="insert">
+		INSERT INTO emp(empno, ename)
+		VALUES (#{empno},#{ename,jdbcType=VARCHAR})
+
+< NULL값 처리 방법 2 >
+ - Configuration XML파일에서 <setting>을 이용하여 전역 설정하기
+	ex) //mybatis-config.xml 파일 내부
+		...
+		<setting>
+			<setting name="jdbcTypeForNull" value="NULL">
+		</setting> ...
+	** <properties>밑에 <typeAliases>위에 <setting>태그를 둔다	
+
+< jdbcType에 설정할 수 있는 값 >
+ - VARCHAR, DATE, TIMESTAMP, INTEGER, CHAR, DOUBLE 
+
+< SELECT 태그에서 resultType으로 설정할 수 있는 값(키워드) >
+ - DB 조회결과(ResultSet)를 JAVA의 어떤 타입으로 변환하여 반환할 것인지 설정하는 속성값
+ - 실제 DTO(객체)는 패키지포함하는 풀네임으로 적용할 수 있다(typeAlias 가능함)
+ - 미리 정의되어 있는 키워드를 사용할 수 있다
+ - org.apache.ibatis.type.typeAliasRegistry 클래스에 명시되어 있다
+
+ 	키워드		자바타입
+	String		java.lang.String
+	date		java.util.Date
+	
+	map		java.util.Map
+	hashmap		java.util.HashMap
+	
+	list		java.util.List
+	arrayList		java.util.ArrayList
+
+	ResultSet
+
+	--------------------------------------------
+	int		java.lang.Integer
+	integer		java.lang.Integer
+	
+	_int		int
+	_integer		int
+
+	int[]		java.lang.Integer[]
+	_int[]		int[]
+	
+	--모두 자바기본타입 이름에 _(언더바)가 안붙어있으면 Wrapper클래스 타입으로 반환
+	--붙어있으면 기본데이터타입
+	byte
+	short
+	long
+	float
+	double
+	boolean
