@@ -1,0 +1,76 @@
+< Spring Annotation >
+ - 어노테이션은 자바 1.5버전 부터 지원
+ - 스프링은 어노테이션을 이용해서 bean과 관련된 정보를 설정할 수 있음
+
+< Spring에서 어노테이션을 사용하기 위해 필요한 설정 >
+ 1. 의존성 관련 어노테이션
+ 	<context:annotation=config/> 태그를 applicationContext.xml에 등록
+	@Autowired, @Required, @Resource 등등
+
+  	-Autowired : Spring에서 의존관계를 자동으로 설정할 때 사용
+	       생성자, 메서드, 필드변수에 적용이 가능하다. 해당 타입의 bean객체가 applicationContext에 존재하지 않거나
+	       2개 이상이면 예외가 발생
+ 	      @Qualifier를 사용하여 2개이상의 beans 중에서 특정 bean을 사용하도록 지정할 수 있다. 아이디로 지정이 가능
+ 
+	-resource : 어플리케이션에서 필요로 하는 의존성 주입을 해준다.
+	     @Resource(name="testDao")
+	     빈 객체의 이름을 지정해서 의존성을 주입함
+ 
+	 -Required : 필수 프로퍼티임을 명시(반드시 bean의 생성과정에서 호출되어야 하는 Setter메서드)
+ 	      Setter메서드 위에 적용
+	      필수 프로퍼티를 설정하지 않으면 bean이 생성되지 않음
+ 
+ 2. bean으로 등록하는 것과 관련된 어노테이션
+  <context:component-scan base-package=""/>
+  @Component, @Controller, @Service, @Repository 등
+
+  Component : 클래스 위에 선언하며, 해당 클래스를 자동으로  bean으로 등록한다
+	       bean의 이름은 해당 클래스명이 사용된다. (첫글자는 소문자)
+  Controller : Spring MVC에서 컨트롤러 인식되게 해주는 어노테이션
+	    클래스위에 Controller 어노테이션을 지정해야 RequestMapping, RequestParam등을 사용할 수 있다.
+  Service : Component와 동일, 가독성을 위해서 만약 해당 클래스가 Service역할을 수행하면 Service 어노테이션을 사용하는 것을 권장
+  Repository :  dao역할을 하는 클래스에 적용
+	      발생하는  sqlException(checked Exception)을 DataAccessException(unchecked Exception)으로 바꿔준다.
+  
+ 3. <mvc:annotation-driven/>
+	Spring MVC와 관련된 annotation을 등록 해준다.
+	@RequestMapping, @Valid  등등을 자동으로 처리
+ 	
+
+< AOP 관점지향 프로그래밍 >
+ - Aspect Oriented Programming 
+ - 시스템의 규모와 복잡도가 증가하면서 기능별로 모듈화를 거치더라도 중복되는 코드가 생겨나게 된다 
+ ex) 트랜잭션 관리, 로깅처리 
+  이러한 코드들을 다시 한번 더 모듈화 해내어 분리하는 것이 AOP이다
+  즉 재모듈화이다.
+
+ < AOP 용어 >
+  1. Advice
+	advice는 PointCut에서 지정한 JoinPoint에서 실행되어야 하는 코드
+	- Around Advice : JoinPoint의 앞과 뒤에서 실행되는 Advice
+	- Before Advice : JoinPoint의 앞에서 실행되는 Advice
+	- After return Advice : JoinPoint 메서드 호출이 정상적으로 종료된 뒤에 실행되는 Advice 
+	- After Throwing Advice : JoinPoint 메서드 호출이 예외를 반환할 때 실행되는 Advice
+
+  2. JoinPoint
+	advice를 적용할 수 있는 지점
+  	-spring에서는 method 실행 전, 혹은 실행 후에 advice를 적용할 수 있다
+  3. PointCut
+	JoinPoint의 부분집합으로 실제로 우리가 Advice를 적용한 JoinPoint 스프링에서는 Aspect문법을 활용해서 PointCut 을 정의할 수 있다
+   4. Weaving
+       Advice 를 로직코드에 적용하는 것(실행)
+       
+  5. Advisor
+       Advice + pointCut : 언제 무엇을 할지 정의하는 것!
+       
+  6. Target
+       핵심로직을 구현하는 클래스
+       
+  7. Proxy 
+	대상객체에 Advice가 적용된 후 생성된 객체
+	
+
+
+
+
+
