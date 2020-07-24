@@ -69,6 +69,32 @@
   7. Proxy 
 	대상객체에 Advice가 적용된 후 생성된 객체
 	
+	
+	
+	
+<Spring legacy Project 시작 >	
+1. 톰캣 버전에 맞는 Dynamic Web Project 생성
+Web-module이 톰캣버전과 맞는 web.xml파일을 구하기 위함
+
+2. Spring legacy 프로젝트의 web.xml을 위에서 생성한 프로젝트의 web.xml로 교체
+3. pom.xml에서 	자바1.6 -> 자바 1.8
+
+		Springframework : 3.1.1 -> 5.2.6버전
+
+		servlet-api : 
+			버전변경 : 2.5 -> 4.0.1
+			artifact-id 변경 : servlet-api -> javax.servlet-api
+
+		jsp-api : 
+			버전변경 : 2.1 -> 2.3.3
+			artifact-id 변경 : jsp-api -> javax.servlet.jsp-api
+
+		maven-compiler-plugin > source : 1.6 -> 1.8
+				         target :  1.6 -> 1.8
+4. 프로젝트 우클릭 -> properties -> project facet
+		dynamic web module : 2.5 -> 4.0
+		java : 1.6 -> 1.8
+	
 
 
 
