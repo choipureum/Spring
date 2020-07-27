@@ -96,6 +96,21 @@ Web-module이 톰캣버전과 맞는 web.xml파일을 구하기 위함
 		java : 1.6 -> 1.8
 	
 
+< 이클립스 주석 줄바뀜 방지 >
+window - Preferences - java - CodeStyle - Formatter - Edit
+
+Format line comments on first... 체크
+Never join lines 체크
+
+< 이클립스 메모리 할당량 확보 >
+ - 이클립스가 설치된 폴더  - eclipse.ini 에서 설정
+
+<Servlet - mybatis 연동 >
+ SqlSessionFactoryBuilder > SqlSessionFactory > SqlSession
+
+<Spring - mybatis 연동 >
+ SqlSessionFactoryBean > SqlSessionFactory > SqlSessionTemplate
+
 
 
 
