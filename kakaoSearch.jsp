@@ -26,5 +26,6 @@
 			console.dir(xhr.response);
 		});
 	}
+	
 </script>
 </html>
