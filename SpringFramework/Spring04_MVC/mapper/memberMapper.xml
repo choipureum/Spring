@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper	namespace="MEMBER">
+	<insert id="insertMember">
+		insert into 
+			tb_member(user_id, password, email, tell)
+		values
+			(#{userId},#{password},#{email},#{tell})
+	</insert>
+	<!-- map 으로 써봄 -->
+	<select id="selectMember"  resultType="MEMBER">
+	SELECT
+	 	* 
+	 FROM 
+	 	tb_MEMBER 
+	WHERE
+		 user_id=#{id} and password=#{pw}
+	
+	</select>
+	<!-- 아이디 중복 여부 확인을 위한 쿼리 -->
+	<select id="selectId" resultType="int">
+	SELECT 
+		count(*)
+	FROM tb_member
+	WHERE 
+		user_id=#{userId}
+	
+	</select>
+	
+	<update id="myPageUpdate">
+	UPDATE tb_member
+	SET 		
+		password = #{password},
+		email =#{email},
+		tell = #{tell}
+	WHERE
+		user_id = #{userId}
+	</update>
+	<!-- 회원탈퇴 -->
+	<delete id="myPageDelete">
+		DELETE FROM tb_MEMBER
+			WHERE USER_ID = #{userId}
+	</delete>
+	
+	
+	
+	
+	
+	
+	
+	
+</mapper>
