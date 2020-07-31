@@ -1,6 +1,6 @@
 package com.kh.welcome.member.model.dao;
 
-import java.util.Map;
+import java.util.*;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
