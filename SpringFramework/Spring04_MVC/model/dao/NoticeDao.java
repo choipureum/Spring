@@ -1,5 +1,6 @@
 package com.kh.welcome.board.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,5 +41,24 @@ public class NoticeDao {
 	public List<Map<String,String>> selectFileWithNotice(int nIdx){
 		return sqlSession.selectList("Notice.selectFileWithNotice",nIdx);
 	}
+	//파일 정보 조회(fIdx)
+	public Map<String,String> selectFile(int fIdx){
+		return sqlSession.selectOne("Notice.selectFile",fIdx);
+	}	
+	//파일삭제
+	public int deleteFileIdx(int fIdx) {
+		return sqlSession.delete("Notice.deleteFileIdx",fIdx);
+	}
+	//게시물 업데이트
+	public int updateNotice(Notice notice) {
+		return sqlSession.update("Notice.updateNotice",notice);
+	}
+	  public int updateInsertFile(Map<String, String> f, int nIdx) {
+	      Map<String,Object>map = new HashMap<String, Object>();
+	      map.put("file", f);
+	      map.put("nIdx", nIdx);
+	      return sqlSession.insert("Notice.updateInsertFile",map);
+	   
+	   }
 	
 }
