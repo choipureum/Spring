@@ -1,8 +1,12 @@
 package com.kh.welcome.board.model.service;
 
+import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,8 +62,42 @@ public class NoticeService {
 		commandMap.put("notice", notice);
 		commandMap.put("flist", flist);
 		return commandMap;
+	}	
+	//파일 조회 -> 삭제
+	public void deleteFile(int fIdx, HttpSession session){		
+		Map<String, String> flist = noticeDao.selectFile(fIdx);
+		String filename = flist.get("renameFileName");
+	    String readFolder = session.getServletContext().getRealPath("/resources/upload/")+filename;	     
+	    File file = new File (readFolder);	
+	   
+	    if(file.exists()) {
+	    	System.out.println("파일삭제됨");
+	 	    file.delete();   
+	    }else {
+	    	System.out.println("파일없음");
+	    }
+	       
+		noticeDao.deleteFileIdx(fIdx);
 	}
-	
+	//게시물 업데이트
+	public int updateNotice(Notice notice,List<MultipartFile> files,String root
+            ) {
+         int result = noticeDao.updateNotice(notice);
+         int nIdx = notice.getnIdx();
+         if(!(files.size() == 1
+               && files.get(0).getOriginalFilename().equals("") )) {
+               
+            //파일업로드를 위해 FileUtil.fileUpload() 호출
+            List<Map<String,String>> filedata 
+               = new FileUtil().fileupload(files, root);
+            
+            for(Map<String,String> f : filedata) {
+               System.out.println(f);
+               noticeDao.updateInsertFile(f,nIdx);
+            }                     
+         }         
+        return result;
+      }
 }
 
 
