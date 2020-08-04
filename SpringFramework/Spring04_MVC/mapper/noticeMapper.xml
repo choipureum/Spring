@@ -14,7 +14,7 @@
          
     <insert id="insertFile">
        INSERT INTO tb_file
-       	(f_idx, n_idx,origin_file_name,
+       		(f_idx, n_idx,origin_file_name,
        rename_file_name, save_path)
        VALUES(
 		       sc_file_idx.nextval,
@@ -67,7 +67,15 @@
 		<result column="n_idx"  property="nIdx"/>
 		<result column="f_idx"  property="fIdx"/>		
 	</resultMap>
+	<select id="selectFile" resultMap="fileData">
+		SELECT
+			*
+		FROM
+			TB_FILE
+		WHERE 
+			f_idx = #{fIdx}
 	
+	</select>
 	<select id="selectFileWithNotice" resultMap="fileData">
 		SELECT
 			*
@@ -75,7 +83,38 @@
 			TB_FILE
 		WHERE 
 			n_idx = #{nIdx}
-
 	</select>
-
+	<delete id="deleteFileIdx">
+		DELETE FROM TB_FILE 
+		WHERE f_idx=#{fIdx}	
+	</delete>
+	<update id="updateNotice">
+       update
+         tb_notice
+      set 
+         title = #{title}
+      ,   content = #{content}
+      where
+         n_idx = #{nIdx}   
+   </update>
+   <insert id="updateInsertFile">
+       INSERT INTO tb_file
+       		(f_idx, n_idx,origin_file_name,
+       rename_file_name, save_path)
+       VALUES(
+		       sc_file_idx.nextval,
+		       #{nIdx},
+		       #{file.originFileName},
+		       #{file.renameFileName},
+		       #{file.savePath}
+       )   
+    </insert>
     </mapper>
+    
+    
+    
+    
+    
+    
+    
+    
