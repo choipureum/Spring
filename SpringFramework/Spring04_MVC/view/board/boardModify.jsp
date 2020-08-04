@@ -18,13 +18,15 @@
 	  <h2><span>*게시판</span></h2>
 	</div> 
 	<form  
-		action="<%= request.getContextPath() %>/notice/noticeupload.do" 
+		action="<%= request.getContextPath() %>/notice/noticeupdate.do" 
 		method="post" 
 		enctype="multipart/form-data"
 		style="left:15%; width:80%">
 	 	<div class="desc_notice" >
 	 		<div>
 			    <div class="tit_notice">
+			    <!-- 게시판 번호 -->
+			    <input type="hidden" name="nIdx" value="${data.notice.nIdx}"/>
 			          	제목 : <input type="text" name="title" value="${data.notice.title}"/>
 			          	파일업로드 : <input type="file" name="files" id="contract_file" multiple/>
 		        </div>
@@ -48,23 +50,17 @@
 	<script type="text/javascript">
 		function deleteFile(fIdx){
 			
+			var xhr = new XMLHttpRequest();
+			xhr.open('POST', '<%= request.getContextPath() %>/notice/deleteFile.do');
+			xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
 			
-			
+			xhr.send('fIdx='+fIdx);
+			xhr.addEventListener('load',function(){
+				var data = xhr.response;				
+				//해당 id 삭제
+				document.getElementById(data).remove();
+			});
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 	</script>
 </body>
 </html>
