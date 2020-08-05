@@ -1,0 +1,31 @@
+< 트랜잭션 속성 >
+ ex) @Transactional(readOnly=true,isolation=Isolation.DEFAULT, rollbackFor=Exception.class)등 여러개 입력가능
+
+ 1. propagation : 이미 진행 중인 트랜잭션이 존재할 때 새로운 쿼리가 호출 될 경우, 어떻게 처리할지를 설정
+ 	ex) @Transactional(propagation=Propagation.REQUIRED)
+		1-1. REQUIRED : 진행중인 트랜잭션이 있다면 새로운 쿼리가 트랜잭션에 포함됨
+			          진행중인 트랜잭션이 없으면 새로운 트랜잭션을 생성
+				기본값.
+		1-2. REQUIRED_NEW : 항상 새로운 트랜잭션을 시작
+		1-3 SUPPORT : 이미 시작된 트랜잭션이 있으면 트랜잭션에 포함
+		1-4 NOT_SUPPROTED : 트랜잭션을 사용하지 않는다
+		1-5 MANDATORY : 시작된 트랜잭션이 있으면 참여, 없으면 예외발생
+		1-6 NEVER : 트랜잭션 사용 안함, 먼저 시작된 트랜잭션이 있으면 예외발생
+ 
+ 2. isolation : 트랜잭션 격리 수준을 관리
+	여러 트랜잭션이 진행될 때 트랜잭션의 작업 결과를 어떻게 노출할 것인지 결정하는 기준
+	//여러개사용
+	@Transactional(propagation=Propagation.REQUIRED,isolation=Isolation.DEFAULT)	
+		2-1 DEFAULT : DB설정을 따라감
+		2-2 READ_COMMIT : COMMIT 처리를 하지 않은 정보를 읽는 것을 방지.
+				가장 많이 사용하는 격리 수준, ORACLE의 기본 값
+		2-3 READ_UNCOMMITED : COMMIT 처리를 하지 않은 정보를 읽을 수 있음
+		2-4 REPEATABLE_READ : 하나의 트랜잭션에서 읽고 있는 ROW를 다른 트랜잭션에서 변경하는 것을 막아줌
+		2-5 SERIALIZABLE : 트랜잭션을 순차적으로 진행, 가장 강력한 트랜잭션 격리수준, 속도가 느림
+
+ 3. readOnly=true
+	readOnly가 지정된 트랜잭션에서는 읽기만 가능
+ 4. rollbackFor=Exception.class
+	해당 예외가 발생했을 때 rollback처리
+ 5. noRollBackFor=Exception.class
+	해당 예외가 발생했을 때 rollback하지 않음
