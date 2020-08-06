@@ -1,0 +1,32 @@
+JUnit - Spring 적용
+	1. Spring-test, hamcrest-library, hamcrest-all , mockito-all Dependency 추가
+	2. 프로젝트 우클릭 > properties > buildPath > JUnit5 추가
+	3. src/main/resources/mybatis  폴더를 src/test/resources로 복사 붙여넣기
+	4. 프로젝트 우클릭 > RunAs 클릭 > Run-Config > classPath > user entri 클릭 > add External Jar > ojdbc6.jar추가
+
+JUnit Assert 메서드
+	- 테스트 케이스의 수행 결과를 판별
+
+	1. assertEquals(예상값, 결과값)
+		: 예상값과 결과값이 일치하는 지 비교.
+		기본 타입은 값비교, 객체는 equals 메서드를 비교
+
+	2. assertSame(예상값, 결과값)
+		:예상값과 결과값이 같은 객체를 참조하고 있는 판단.
+		주소값으로 비교
+
+	3. assertNotSame(예상값, 결과값)
+		: 예상값과 결과값이 다른 객체를 참조하고 있는 지 판단.
+
+	4. assertNull/assertNotNull
+		: 객체가 Null을 참조하는지 아닌지 판단
+
+	5. assertTrue/assertFalse
+		: 조건식의 결과가 참인지 거짓인지 판단.
+
+	6. fail()
+		: 테스트 결과를 실패로 처리한다.
+
+	7. assertThat()
+		: Mathers 라는 타입을 반환해주는 hamcrest 라이브러리의 메서드를 활용해
+		더 정밀한 테스트 케이스를 작성할 때 사용.
